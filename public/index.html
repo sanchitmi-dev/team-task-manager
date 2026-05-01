@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Task Manager</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main id="authView" class="auth-shell hidden">
+      <section class="auth-panel">
+        <div>
+          <p class="eyebrow">Team Task Manager</p>
+          <h1>Projects, tasks, and progress in one focused workspace.</h1>
+          <p class="muted">Role-based access keeps admins in control while members update the work assigned to them.</p>
+        </div>
+        <form id="authForm" class="auth-card">
+          <div class="segmented">
+            <button type="button" class="segment active" data-auth-mode="login">Login</button>
+            <button type="button" class="segment" data-auth-mode="signup">Signup</button>
+          </div>
+          <label class="field signup-only hidden">
+            <span>Name</span>
+            <input name="name" autocomplete="name" placeholder="Your name" />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" placeholder="admin@example.com" required />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input name="password" type="password" autocomplete="current-password" placeholder="Admin@12345" required />
+          </label>
+          <button class="primary" type="submit">Continue</button>
+          <p class="hint">Demo admin: admin@example.com / Admin@12345</p>
+          <p class="hint">Demo member: member@example.com / Member@12345</p>
+        </form>
+      </section>
+    </main>
+
+    <main id="appView" class="app hidden">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">T</span>
+          <div>
+            <strong>Task Manager</strong>
+            <small id="roleBadge">Member</small>
+          </div>
+        </div>
+        <nav class="nav">
+          <button class="nav-item active" data-view="dashboard">Dashboard</button>
+          <button class="nav-item" data-view="projects">Projects</button>
+          <button class="nav-item" data-view="tasks">Tasks</button>
+          <button class="nav-item admin-only" data-view="team">Team</button>
+        </nav>
+        <button id="logoutBtn" class="ghost">Logout</button>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Workspace</p>
+            <h2 id="viewTitle">Dashboard</h2>
+          </div>
+          <div class="user-pill">
+            <span id="userInitial">A</span>
+            <div>
+              <strong id="userName">Admin</strong>
+              <small id="userEmail">admin@example.com</small>
+            </div>
+          </div>
+        </header>
+
+        <section id="dashboardView" class="view active">
+          <div class="stat-grid">
+            <article class="stat"><small>Projects</small><strong id="statProjects">0</strong></article>
+            <article class="stat"><small>Tasks</small><strong id="statTasks">0</strong></article>
+            <article class="stat"><small>Completed</small><strong id="statCompleted">0</strong></article>
+            <article class="stat danger"><small>Overdue</small><strong id="statOverdue">0</strong></article>
+          </div>
+          <div class="dashboard-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <h3>Status overview</h3>
+              </div>
+              <div id="statusBars" class="bars"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-head">
+                <h3>Recent tasks</h3>
+              </div>
+              <div id="recentTasks" class="task-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="projectsView" class="view">
+          <div class="action-row admin-only">
+            <button class="primary" id="newProjectBtn">New project</button>
+          </div>
+          <div id="projectList" class="project-grid"></div>
+        </section>
+
+        <section id="tasksView" class="view">
+          <div class="filters">
+            <select id="statusFilter">
+              <option value="">All statuses</option>
+              <option value="todo">To do</option>
+              <option value="in_progress">In progress</option>
+              <option value="review">Review</option>
+              <option value="done">Done</option>
+            </select>
+            <select id="projectFilter">
+              <option value="">All projects</option>
+            </select>
+            <button class="primary admin-only" id="newTaskBtn">New task</button>
+          </div>
+          <div id="taskBoard" class="kanban"></div>
+        </section>
+
+        <section id="teamView" class="view">
+          <div class="panel">
+            <div class="panel-head"><h3>Team access</h3></div>
+            <div id="teamList" class="team-list"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <dialog id="projectDialog">
+      <form method="dialog" class="modal-form" id="projectForm">
+        <h3 id="projectDialogTitle">New project</h3>
+        <input type="hidden" name="projectId" />
+        <label class="field"><span>Name</span><input name="name" required /></label>
+        <label class="field"><span>Description</span><textarea name="description" rows="3"></textarea></label>
+        <label class="field"><span>Members</span><select name="memberIds" multiple></select></label>
+        <div class="modal-actions">
+          <button type="button" class="ghost" data-close>Cancel</button>
+          <button class="primary" value="save">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="taskDialog">
+      <form method="dialog" class="modal-form" id="taskForm">
+        <h3 id="taskDialogTitle">New task</h3>
+        <input type="hidden" name="taskId" />
+        <label class="field"><span>Title</span><input name="title" required /></label>
+        <label class="field"><span>Description</span><textarea name="description" rows="3"></textarea></label>
+        <div class="two-cols">
+          <label class="field"><span>Project</span><select name="projectId" required></select></label>
+          <label class="field"><span>Assignee</span><select name="assigneeId" required></select></label>
+        </div>
+        <div class="two-cols">
+          <label class="field"><span>Status</span><select name="status"></select></label>
+          <label class="field"><span>Priority</span><select name="priority"></select></label>
+        </div>
+        <label class="field"><span>Due date</span><input name="dueDate" type="date" /></label>
+        <div class="modal-actions">
+          <button type="button" class="ghost" data-close>Cancel</button>
+          <button class="primary" value="save">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast hidden"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
