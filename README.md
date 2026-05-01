@@ -2,6 +2,10 @@
 
 A full-stack web app for managing team projects, assigning tasks, tracking progress, and enforcing role-based access control.
 
+## Live Application
+
+https://team-task-manager-production-af6a.up.railway.app
+
 ## Features
 
 - Authentication with signup, login, logout, signed HTTP-only session cookies, and hashed passwords
@@ -88,7 +92,7 @@ The database is stored in `data/db.json` and contains:
 
 ## Selection Submission Checklist
 
-- Live URL: deploy on Railway
+- Live URL: https://team-task-manager-production-af6a.up.railway.app
 - GitHub repo: push this project
 - README: included
 - Demo video: record login, admin project/task creation, member status update, and dashboard changes

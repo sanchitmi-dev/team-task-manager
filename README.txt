@@ -7,6 +7,10 @@ GitHub Repository
 -----------------
 https://github.com/sanchitmi-dev/team-task-manager
 
+Live Application
+----------------
+https://team-task-manager-production-af6a.up.railway.app
+
 Features
 --------
 - Authentication with signup, login, logout, signed HTTP-only session cookies, and hashed passwords
@@ -89,7 +93,7 @@ The database is stored in data/db.json and contains:
 
 Submission Checklist
 --------------------
-- Live URL: Deploy on Railway and paste the generated Railway URL
+- Live URL: https://team-task-manager-production-af6a.up.railway.app
 - GitHub repo: https://github.com/sanchitmi-dev/team-task-manager
 - README: README.md and README.txt are included
 - Demo video: Record login, admin project/task creation, member status update, and dashboard changes
