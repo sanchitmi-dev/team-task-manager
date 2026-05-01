@@ -495,6 +495,8 @@ function serveStatic(req, res, pathname) {
 
 createSeedDataIfNeeded();
 
+const HOST = process.env.HOST || '0.0.0.0';
+
 http
   .createServer(async (req, res) => {
     try {
@@ -506,6 +508,6 @@ http
       return fail(res, error.status || 500, error.message || 'Server error');
     }
   })
-  .listen(PORT, () => {
-    console.log(`Team Task Manager running on http://localhost:${PORT}`);
+  .listen(PORT, HOST, () => {
+    console.log(`Team Task Manager running on http://${HOST}:${PORT}`);
   });
